@@ -1,0 +1,13 @@
+Coloque aqui o vídeo de repouso do totem:
+
+  totem-idle.mp4
+
+Recomendações:
+- Formato: MP4 (H.264)
+- Duração: 15–60 segundos (roda em loop)
+- Resolução: 1080p vertical ou horizontal (conforme a tela)
+- Sem áudio necessário (reproduz mudo)
+- Conteúdo: promoções, prêmios, marca NH Clube +
+
+O totem exibe este vídeo após 60 segundos sem ninguém tocar na tela.
+Para alterar o tempo, use VITE_TOTEM_IDLE_SECONDS no .env
