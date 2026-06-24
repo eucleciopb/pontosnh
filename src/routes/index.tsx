@@ -31,6 +31,9 @@ import { PdvLoginPage } from '@/pages/pdv/PdvLoginPage'
 import { PdvProtectedLayout } from '@/pages/pdv/PdvProtectedLayout'
 import { PdvGeneratePage } from '@/pages/pdv/PdvGeneratePage'
 import { PdvCouponsPage } from '@/pages/pdv/PdvCouponsPage'
+import { PdvSalePage } from '@/pages/pdv/PdvSalePage'
+import { PdvSaleLayout } from '@/pages/pdv/PdvSaleLayout'
+import { PDV_ROUTES } from '@/features/pdv/constants'
 import { ROUTES } from '@/lib/constants'
 
 export const router = createBrowserRouter([
@@ -81,6 +84,11 @@ export const router = createBrowserRouter([
   {
     path: ROUTES.pdvLogin,
     element: <PdvLoginPage />,
+  },
+  {
+    path: PDV_ROUTES.sale,
+    element: <PdvSaleLayout />,
+    children: [{ index: true, element: <PdvSalePage /> }],
   },
   {
     path: ROUTES.pdv,

@@ -1,4 +1,4 @@
-import { Navigate } from 'react-router-dom'
+import { Navigate, useSearchParams } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
@@ -22,6 +22,10 @@ type LoginForm = z.infer<typeof loginSchema>
 
 export function PdvLoginPage() {
   const { isLoading, isStaff, session, signIn, signOut } = useAuth()
+  const [searchParams] = useSearchParams()
+  const rawRedirect = searchParams.get('redirect')
+  const redirectTo =
+    rawRedirect?.startsWith('/pdv') ? rawRedirect : PDV_ROUTES.sale
 
   const {
     register,
@@ -46,7 +50,7 @@ export function PdvLoginPage() {
   }
 
   if (isStaff) {
-    return <Navigate to={PDV_ROUTES.home} replace />
+    return <Navigate to={redirectTo} replace />
   }
 
   if (session && !isStaff) {

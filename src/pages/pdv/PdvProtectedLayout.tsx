@@ -1,5 +1,5 @@
-import { Navigate, Outlet, NavLink } from 'react-router-dom'
-import { Loader2, LogOut, Receipt, Ticket } from 'lucide-react'
+import { Navigate, Outlet, NavLink, useLocation } from 'react-router-dom'
+import { Loader2, LogOut, Receipt, Ticket, Zap } from 'lucide-react'
 import { Logo } from '@/components/brand/Logo'
 import { Button } from '@/components/ui/Button'
 import { useAuth } from '@/hooks/useAuth'
@@ -7,12 +7,14 @@ import { PDV_ROUTES } from '@/features/pdv/constants'
 import { cn } from '@/lib/utils'
 
 const navItems = [
+  { to: PDV_ROUTES.sale, label: 'Caixa integrado', icon: Zap },
   { to: PDV_ROUTES.home, label: 'Gerar cupom', icon: Ticket },
   { to: PDV_ROUTES.coupons, label: 'Cupons', icon: Receipt },
 ] as const
 
 export function PdvProtectedLayout() {
   const { isLoading, isStaff, profile, signOut } = useAuth()
+  const location = useLocation()
 
   if (isLoading) {
     return (
@@ -23,7 +25,8 @@ export function PdvProtectedLayout() {
   }
 
   if (!isStaff) {
-    return <Navigate to={PDV_ROUTES.login} replace />
+    const redirect = encodeURIComponent(location.pathname + location.search)
+    return <Navigate to={`${PDV_ROUTES.login}?redirect=${redirect}`} replace />
   }
 
   return (

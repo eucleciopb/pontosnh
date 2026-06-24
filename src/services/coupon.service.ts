@@ -13,16 +13,27 @@ function assertSupabase() {
   }
 }
 
+export interface CreateCouponOptions {
+  externalSaleId?: string
+  source?: string
+}
+
 export async function createCoupon(
   purchaseAmount: number,
   storeId?: string,
+  options?: CreateCouponOptions,
 ): Promise<CreateCouponResult> {
   assertSupabase()
   const client = getSupabase()
 
+  const metadata: Record<string, string> = {}
+  if (options?.externalSaleId) metadata.external_sale_id = options.externalSaleId
+  if (options?.source) metadata.source = options.source
+
   const { data, error } = await client.rpc('admin_create_coupon', {
     p_purchase_amount: purchaseAmount,
     p_store_id: storeId || undefined,
+    p_metadata: Object.keys(metadata).length > 0 ? metadata : undefined,
   })
 
   if (error) throw new Error(error.message)

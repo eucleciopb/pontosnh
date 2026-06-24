@@ -527,6 +527,7 @@ export interface Database {
           p_purchase_amount: number
           p_store_id?: string
           p_validity_hours?: number
+          p_metadata?: Json
         }
         Returns: Json
       }
