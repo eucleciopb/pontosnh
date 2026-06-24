@@ -3,7 +3,7 @@ import { Loader2, LogOut } from 'lucide-react'
 import { Logo } from '@/components/brand/Logo'
 import { Button } from '@/components/ui/Button'
 import { useAuth } from '@/hooks/useAuth'
-import { PDV_ROUTES } from '@/features/pdv/constants'
+import { PDV_ROUTES, LOTHUS_PDV_NAME } from '@/features/pdv/constants'
 
 /** Layout minimalista para integração com o caixa — sem menu de navegação. */
 export function PdvSaleLayout() {
@@ -27,7 +27,10 @@ export function PdvSaleLayout() {
     <div className="flex min-h-screen flex-col bg-nh-gray-100">
       <header className="border-b border-nh-gray-200 bg-white px-4 py-3">
         <div className="mx-auto flex max-w-lg items-center justify-between gap-4">
-          <Logo size="sm" />
+          <div>
+            <Logo size="sm" />
+            <p className="mt-1 text-xs text-nh-gray-500">Integração {LOTHUS_PDV_NAME}</p>
+          </div>
           <div className="flex items-center gap-3">
             <p className="text-sm text-nh-gray-600">{profile?.full_name}</p>
             <Button variant="ghost" size="sm" onClick={() => void signOut()}>

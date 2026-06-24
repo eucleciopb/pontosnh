@@ -14,14 +14,15 @@ import { ThermalReceipt, ThermalReceiptPortal } from '@/features/coupons/compone
 import { useGenerateCoupon } from '@/features/pdv/hooks/useGenerateCoupon'
 import { useSaleFromPos } from '@/features/pdv/hooks/useSaleFromPos'
 import { formatCurrency, formatPoints } from '@/lib/utils'
+import { LOTHUS_PDV_NAME } from '@/features/pdv/constants'
 import { useAuth } from '@/hooks/useAuth'
 
 /**
- * Tela de caixa integrada ao sistema de vendas.
- * Abre automaticamente com o valor da venda e imprime o cupom — sem digitar nada.
+ * Tela integrada ao Lothus PDV.
+ * Ao concluir a venda, gera e imprime o cupom automaticamente — sem digitar nada.
  *
  * URL: /pdv/venda?valor=149.90&loja=NH-001&venda=12345
- * postMessage: { type: 'nh-sale-complete', payload: { amount: 149.90, saleId: '12345' } }
+ * postMessage: { type: 'lothus-sale-complete', payload: { amount: 149.90, saleId: '12345' } }
  */
 export function PdvSalePage() {
   const { profile } = useAuth()
@@ -61,11 +62,11 @@ export function PdvSalePage() {
             </div>
             <h1 className="text-xl font-bold text-nh-gray-900">Aguardando venda</h1>
             <p className="mt-2 text-sm text-nh-gray-600">
-              Ao concluir a venda no sistema da loja, o cupom será gerado e impresso
-              automaticamente.
+              Ao concluir a venda no <strong>{LOTHUS_PDV_NAME}</strong>, o cupom será gerado e
+              impresso automaticamente.
             </p>
             <p className="mt-4 text-xs text-nh-gray-400">
-              Integração via URL ou postMessage do PDV
+              Integração Lothus PDV via URL ou postMessage
             </p>
           </Card>
         )}

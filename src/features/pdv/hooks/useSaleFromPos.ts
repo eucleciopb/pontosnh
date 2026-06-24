@@ -8,7 +8,7 @@ import {
 } from '@/features/pdv/utils/parse-sale-params'
 
 interface UseSaleFromPosOptions {
-  /** Escuta postMessage do sistema de vendas (padrão: true) */
+  /** Escuta postMessage do Lothus PDV (padrão: true) */
   listenForMessages?: boolean
 }
 
@@ -60,7 +60,7 @@ export function useSaleFromPos(options: UseSaleFromPosOptions = {}) {
     setStatus('generating')
   }, [searchParams]) // eslint-disable-line react-hooks/exhaustive-deps
 
-  // Escuta postMessage do sistema de vendas
+  // Escuta postMessage do Lothus PDV
   useEffect(() => {
     if (!listenForMessages) return
 

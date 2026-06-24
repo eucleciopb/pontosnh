@@ -1,4 +1,6 @@
 import type { SalePayload } from '@/features/pdv/types'
+import { LOTHUS_PDV_SOURCE } from '@/features/pdv/constants'
+import { LOTHUS_SALE_MESSAGE_TYPE, POS_SALE_MESSAGE_TYPE, withLothusSource } from '@/features/pdv/types'
 
 function parseAmount(raw: string | null): number | null {
   if (!raw) return null
@@ -22,12 +24,12 @@ export function parseSaleFromSearchParams(search: string): SalePayload | null {
   const amount = parseAmount(firstParam(params, 'valor', 'amount', 'total'))
   if (amount === null) return null
 
-  return {
+  return withLothusSource({
     amount,
     storeCode: firstParam(params, 'loja', 'store', 'storeCode') ?? undefined,
-    saleId: firstParam(params, 'venda', 'sale_id', 'saleId', 'id') ?? undefined,
-    source: firstParam(params, 'origem', 'source') ?? undefined,
-  }
+    saleId: firstParam(params, 'venda', 'sale_id', 'saleId', 'id', 'idVenda') ?? undefined,
+    source: firstParam(params, 'origem', 'source') ?? LOTHUS_PDV_SOURCE,
+  })
 }
 
 export function isAutoGenerateRequested(search: string): boolean {
@@ -42,7 +44,11 @@ export function parseSaleFromMessage(data: unknown): SalePayload | null {
 
   const msg = data as Record<string, unknown>
 
-  if (msg.type === 'nh-sale-complete' && msg.payload && typeof msg.payload === 'object') {
+  if (
+    (msg.type === POS_SALE_MESSAGE_TYPE || msg.type === LOTHUS_SALE_MESSAGE_TYPE) &&
+    msg.payload &&
+    typeof msg.payload === 'object'
+  ) {
     return parseSalePayload(msg.payload as Record<string, unknown>)
   }
 
@@ -62,15 +68,17 @@ function parseSalePayload(raw: Record<string, unknown>): SalePayload | null {
 
   const storeCode =
     (raw.storeCode ?? raw.loja ?? raw.store) as string | undefined
-  const saleId = (raw.saleId ?? raw.venda ?? raw.sale_id ?? raw.id) as
-    | string
-    | undefined
+  const saleId = (raw.saleId ??
+    raw.venda ??
+    raw.sale_id ??
+    raw.idVenda ??
+    raw.id) as string | undefined
   const source = (raw.source ?? raw.origem) as string | undefined
 
-  return {
+  return withLothusSource({
     amount,
     storeCode: storeCode || undefined,
     saleId: saleId ? String(saleId) : undefined,
     source: source || undefined,
-  }
+  })
 }

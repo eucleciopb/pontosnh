@@ -4,6 +4,7 @@ import { useCouponPrint } from '@/features/coupons/hooks/useCouponPrint'
 import { createCouponResultToReceipt } from '@/features/coupons/types'
 import { generateCouponQrDataUrl } from '@/features/coupons/utils/qr'
 import type { SalePayload } from '@/features/pdv/types'
+import { LOTHUS_PDV_SOURCE } from '@/features/pdv/constants'
 import { createCoupon, listStores } from '@/services/coupon.service'
 
 interface GenerateCouponInput {
@@ -62,7 +63,7 @@ export function useGenerateCoupon() {
       purchaseAmount: sale.amount,
       storeId,
       saleId: sale.saleId,
-      source: sale.source,
+      source: sale.source ?? LOTHUS_PDV_SOURCE,
     })
   }
 

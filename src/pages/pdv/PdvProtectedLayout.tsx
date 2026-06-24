@@ -3,11 +3,11 @@ import { Loader2, LogOut, Receipt, Ticket, Zap } from 'lucide-react'
 import { Logo } from '@/components/brand/Logo'
 import { Button } from '@/components/ui/Button'
 import { useAuth } from '@/hooks/useAuth'
-import { PDV_ROUTES } from '@/features/pdv/constants'
+import { PDV_ROUTES, LOTHUS_PDV_NAME } from '@/features/pdv/constants'
 import { cn } from '@/lib/utils'
 
 const navItems = [
-  { to: PDV_ROUTES.sale, label: 'Caixa integrado', icon: Zap },
+  { to: PDV_ROUTES.sale, label: LOTHUS_PDV_NAME, icon: Zap },
   { to: PDV_ROUTES.home, label: 'Gerar cupom', icon: Ticket },
   { to: PDV_ROUTES.coupons, label: 'Cupons', icon: Receipt },
 ] as const
